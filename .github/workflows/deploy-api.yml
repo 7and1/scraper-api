@@ -74,11 +74,11 @@ jobs:
       - name: Create wrangler.toml from template
         run: |
           cp apps/api/wrangler.toml.example apps/api/wrangler.toml
-          # Database IDs will be set via GitHub Secrets or environment
-        env:
-          PROD_DB_ID: ${{ secrets.CLOUDFLARE_D1_DATABASE_ID }}
-          DEV_DB_ID: ${{ secrets.CLOUDFLARE_D1_DATABASE_ID_DEV }}
-          STAGING_DB_ID: ${{ secrets.CLOUDFLARE_D1_DATABASE_ID_STAGING }}
+          # Replace placeholder database IDs with actual values from secrets
+          sed -i.bak "s/REPLACE_WITH_YOUR_DATABASE_ID/${{ secrets.CLOUDFLARE_D1_DATABASE_ID }}/" apps/api/wrangler.toml
+          sed -i.bak "s/REPLACE_WITH_YOUR_DEV_DATABASE_ID/${{ secrets.CLOUDFLARE_D1_DATABASE_ID_DEV }}/" apps/api/wrangler.toml
+          sed -i.bak "s/REPLACE_WITH_YOUR_STAGING_DATABASE_ID/${{ secrets.CLOUDFLARE_D1_DATABASE_ID_STAGING }}/" apps/api/wrangler.toml
+          rm -f apps/api/wrangler.toml.bak
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
