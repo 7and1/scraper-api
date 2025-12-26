@@ -1,0 +1,41 @@
+name: Database Migration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/db/migrations/**"
+  workflow_dispatch:
+    inputs:
+      migration_file:
+        description: "Migration file to run (e.g., 002_add_feature.sql)"
+        required: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install wrangler
+        run: npm install -g wrangler
+
+      - name: Run migrations
+        run: |
+          if [ -n "${{ github.event.inputs.migration_file }}" ]; then
+            wrangler d1 execute scraper-api-db --file=packages/db/migrations/${{ github.event.inputs.migration_file }} --remote
+          else
+            for file in packages/db/migrations/*.sql; do
+              echo "Running migration: $file"
+              wrangler d1 execute scraper-api-db --file="$file" --remote
+            done
+          fi
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

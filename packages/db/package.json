@@ -1,0 +1,10 @@
+{
+  "name": "@scraper-api/db",
+  "version": "1.0.0",
+  "private": true,
+  "files": [
+    "schema.sql",
+    "seed.sql",
+    "migrations"
+  ]
+}

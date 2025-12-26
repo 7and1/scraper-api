@@ -1,0 +1,23 @@
+node_modules/
+.turbo/
+.wrangler/
+dist/
+coverage/
+.next/
+.vercel/
+.pnpm-store/
+.cache/
+
+# Env files
+.env
+.env.*
+!.env.example
+.dev.vars
+**/.dev.vars
+
+# Cloudflare (contains sensitive data)
+wrangler.toml
+apps/api/wrangler.toml
+
+# OS
+.DS_Store

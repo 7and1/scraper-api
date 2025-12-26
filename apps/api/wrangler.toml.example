@@ -1,0 +1,67 @@
+# Cloudflare Workers Configuration Template
+# Copy this file to wrangler.toml and fill in your values
+# NEVER commit wrangler.toml with real credentials!
+
+name = "scraper-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Account ID - Set via CLOUDFLARE_ACCOUNT_ID environment variable
+# Or uncomment and fill in (not recommended for public repos):
+# account_id = "your-account-id-here"
+
+# D1 Database Binding
+[[d1_databases]]
+binding = "DB"
+database_name = "scraper-api-db"
+database_id = "REPLACE_WITH_YOUR_DATABASE_ID"
+
+# Browser Rendering Binding
+[browser]
+binding = "BROWSER"
+
+# Environment variables (set per-environment below)
+[vars]
+ENVIRONMENT = "production"
+LOG_LEVEL = "info"
+
+# Development environment
+[env.development]
+name = "scraper-api-dev"
+
+[env.development.vars]
+ENVIRONMENT = "development"
+LOG_LEVEL = "debug"
+
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "scraper-api-db-dev"
+database_id = "REPLACE_WITH_YOUR_DEV_DATABASE_ID"
+
+[env.development.browser]
+binding = "BROWSER"
+
+# Staging environment
+[env.staging]
+name = "scraper-api-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+LOG_LEVEL = "info"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "scraper-api-db-staging"
+database_id = "REPLACE_WITH_YOUR_STAGING_DATABASE_ID"
+
+[env.staging.browser]
+binding = "BROWSER"
+
+# Production environment (uses the top-level vars)
+# To set secrets, use: wrangler secret put <SECRET_NAME> --env production
+# Required secrets:
+# - AUTH_SECRET
+# - GITHUB_CLIENT_ID
+# - GITHUB_CLIENT_SECRET
+# - INTERNAL_API_SECRET

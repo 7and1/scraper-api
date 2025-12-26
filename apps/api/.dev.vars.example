@@ -1,0 +1,5 @@
+AUTH_SECRET=replace-me
+GITHUB_CLIENT_ID=replace-me
+GITHUB_CLIENT_SECRET=replace-me
+INTERNAL_API_SECRET=dev-internal-secret
+
